@@ -17,11 +17,6 @@ Sistema de gestión simple diseñado para administrar y visualizar información 
 2. Asegúrate de tener instalado Java.
 3. Navega hasta el directorio del proyecto y ejecuta el archivo principal.
 
-## Tecnología Utilizada
-
-- Lenguaje: Java (Vanilla)
-- Interfaz: Consola
-
 ## Contribuciones
 
 Las contribuciones son bienvenidas. Si encuentras algún bug o tienes alguna sugerencia, por favor abre un issue en este repositorio.
