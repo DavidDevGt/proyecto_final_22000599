@@ -10,6 +10,7 @@ public class Main {
         final String ANSI_CYAN = "\u001B[36m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_GREEN = "\u001B[32m";
+        final String ANSI_YELLOW = "\u001B[33m";
 
         System.out.println("\n" + ANSI_BLUE + "=========================================");
         System.out.println("|            " + ANSI_CYAN + "MENU PRINCIPAL" + ANSI_BLUE + "             |");
@@ -49,6 +50,7 @@ public class Main {
             System.out.println("2. Editar director carrera");
             System.out.println("3. Editar cursos carrera");
             System.out.println("4. Salir" + ANSI_RESET);
+            System.out.println("5.Ver información del sistema");
             System.out.print(ANSI_GREEN + "Seleccione una opción: " + ANSI_RESET);
             opcionPrincipal = scanner.nextInt();
 
@@ -95,34 +97,35 @@ public class Main {
                         switch (opcionCursos) {
                             case 1:
                                 // EDITAR INFO DEL CURSO
-                                System.out.print(
-                                        "¿Cuál curso deseas editar? (Por número): ");
+                                System.out.print(ANSI_CYAN + "¿Cuál curso deseas editar? (Por número): " + ANSI_RESET);
                                 int cursoAEditar = scanner.nextInt();
-                                System.out.print("Nuevo nombre del curso: ");
+                                System.out.print(ANSI_CYAN + "Nuevo nombre del curso: " + ANSI_RESET);
                                 scanner.nextLine(); // limpiar
                                 String nuevoNombreCurso = scanner.nextLine();
                                 curso1.setNombreDelCurso(nuevoNombreCurso);
                                 break;
+
                             case 2:
                                 // EDITAR HORARIO
-                                System.out.print("¿De qué curso deseas editar el horario? (Por número): ");
+                                System.out.print(ANSI_CYAN + "¿De qué curso deseas editar el horario? (Por número): "
+                                        + ANSI_RESET);
                                 int cursoHorario = scanner.nextInt();
-                                scanner.nextLine();
+                                scanner.nextLine(); // Consumir el carácter de nueva línea
 
-                                System.out.print("Nuevo horario de inicio (10 am): ");
+                                System.out.print(ANSI_CYAN + "Horario de inicio (10 am): " + ANSI_RESET);
                                 String inicio = scanner.nextLine();
 
-                                System.out.print("Nuevo horario de fin (12 pm): ");
+                                System.out.print(ANSI_CYAN + "Horario de fin (12 pm): " + ANSI_RESET);
                                 String fin = scanner.nextLine();
 
                                 ArrayList<String> nuevosDias = new ArrayList<>();
-                                System.out.println("Introduce los días (ej. Lunes, Martes). Finaliza con 'fin':");
-                                while (true) {
-                                    String dia = scanner.nextLine();
-                                    if (dia.equalsIgnoreCase("fin")) {
-                                        break;
-                                    }
-                                    nuevosDias.add(dia);
+                                System.out.println(ANSI_CYAN + "Ingresa los días separados por comas (Lunes, Martes):"
+                                        + ANSI_RESET);
+                                String diasInput = scanner.nextLine();
+                                String[] diasArray = diasInput.split(",");
+
+                                for (String dia : diasArray) {
+                                    nuevosDias.add(dia.trim());
                                 }
 
                                 Horario nuevoHorario = new Horario(nuevosDias, inicio, fin);
@@ -131,26 +134,30 @@ public class Main {
 
                             case 3:
                                 // EDITAR PROFESOR
-                                System.out.print("¿De qué curso deseas editar el profesor? (Por número): ");
+                                System.out.print(ANSI_CYAN + "¿De qué curso deseas editar el profesor? (Por número): "
+                                        + ANSI_RESET);
                                 int cursoProfesor = scanner.nextInt();
-                                System.out.print("Nuevo nombre del profesor: ");
+                                System.out.print(ANSI_CYAN + "Nuevo nombre del profesor: " + ANSI_RESET);
                                 scanner.nextLine(); // limpiar
                                 String nombreProfesor = scanner.nextLine();
                                 Profesor nuevoProfesor = new Profesor(nombreProfesor, "Especialidad",
                                         "correo@example.com");
                                 curso1.asignarProfesor(nuevoProfesor);
                                 break;
+
                             case 4:
                                 // AGREGAR CURSO
-                                System.out.print("Nombre del nuevo curso: ");
+                                System.out.print(ANSI_CYAN + "Nombre del nuevo curso: " + ANSI_RESET);
                                 scanner.nextLine(); // limpiar
                                 String nombreCurso = scanner.nextLine();
                                 Curso nuevoCurso = new Curso(nombreCurso);
                                 semestre1.añadirCurso(nuevoCurso);
                                 break;
+
                             case 5:
                                 // ELIMINAR CURSO
-                                System.out.print("¿Cuál curso deseas eliminar? (Por número): ");
+                                System.out
+                                        .print(ANSI_CYAN + "¿Cuál curso deseas eliminar? (Por número): " + ANSI_RESET);
                                 int cursoAEliminar = scanner.nextInt();
 
                                 if (cursoAEliminar == 1) {
@@ -158,23 +165,44 @@ public class Main {
                                 } else if (cursoAEliminar == 2) {
                                     semestre1.eliminarCurso(curso2);
                                 } else {
-                                    System.out.println("Intente de nuevo.");
+                                    System.out.println(ANSI_YELLOW + "Intente de nuevo." + ANSI_RESET);
                                 }
 
                                 System.out.println(ANSI_RED + "Curso eliminado exitosamente." + ANSI_RESET);
                                 break;
+
                             case 6:
                                 // REGRESAR AL MENU
                                 break;
+
                             default:
-                                System.out.println("Intente de nuevo.");
+                                System.out.println(ANSI_YELLOW + "Intente de nuevo." + ANSI_RESET);
                                 break;
+
                         }
                     }
                     break;
                 case 4:
                     System.out.println(ANSI_RED + "Saliendo del sistema..." + ANSI_RESET);
                     break;
+                case 5:
+                    // Mostrar información del sistema
+                    System.out.println(ANSI_BLUE + "====== Información del Sistema ======" + ANSI_RESET);
+                    System.out.println("Nombre de la carrera: " + carrera1.obtenerNombre());
+                    System.out.println("Duración de la carrera: " + carrera1.obtenerDuracion());
+                    System.out.println("Director de la carrera: " + carrera1.obtenerDirector());
+
+                    // Información de los cursos
+                    System.out.println(ANSI_CYAN + "--- Cursos ---" + ANSI_RESET);
+                    System.out.println("Curso 1: " + curso1.getNombreDelCurso());
+                    System.out.println("Profesor: " + profesor1.getNombreDelProfesor());
+
+                    System.out.println("Curso 2: " + curso2.getNombreDelCurso());
+                    System.out.println("Profesor: " + profesor2.getNombreDelProfesor());
+
+                    System.out.println(ANSI_BLUE + "====================================" + ANSI_RESET);
+                    break;
+
                 default:
                     System.out.println("Intente de nuevo.");
                     break;
