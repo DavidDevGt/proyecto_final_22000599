@@ -4,6 +4,7 @@ public class Carrera {
     // Atributos
     private String nombreDeLaCarrera;
     private String duracionDeLaCarrera;
+    private String directorDeLaCarrera;
     private ArrayList<Semestre> listaDeSemestres;
 
     // Constructor
@@ -13,7 +14,7 @@ public class Carrera {
         this.listaDeSemestres = new ArrayList<>();
     }
 
-    // Métodos
+    // Métodos para registrar y modificar datos de la carrera
     public void registrarCarrera(String nombre, String duracion) {
         this.nombreDeLaCarrera = nombre;
         this.duracionDeLaCarrera = duracion;
@@ -24,24 +25,42 @@ public class Carrera {
         this.duracionDeLaCarrera = duracion;
     }
 
+    public void actualizarNombre(String nombre) {
+        this.nombreDeLaCarrera = nombre;
+    }
+
+    public void actualizarDuracion(String duracion) {
+        this.duracionDeLaCarrera = duracion;
+    }
+
+    public void actualizarDirector(String director) {
+        this.directorDeLaCarrera = director;
+    }
+
+    public String obtenerNombre() {
+        return this.nombreDeLaCarrera;
+    }
+
+    public String obtenerDuracion() {
+        return this.duracionDeLaCarrera;
+    }
+
+    public String obtenerDirector() {
+        return this.directorDeLaCarrera;
+    }
+
+    // Método para añadir un curso a un semestre específico
     public void añadirCursoASemestre(int numeroSemestre, Curso curso) {
         if (numeroSemestre <= listaDeSemestres.size()) {
             listaDeSemestres.get(numeroSemestre - 1).añadirCurso(curso);
         }
     }
 
+    // Método para eliminar datos de la carrera
     public void eliminarCarrera() {
         this.nombreDeLaCarrera = "";
         this.duracionDeLaCarrera = "";
         this.listaDeSemestres.clear();
-    }
-    
-    public String getNombreDeLaCarrera() {
-        return nombreDeLaCarrera;
-    }
-
-    public String getDuracionDeLaCarrera() {
-        return duracionDeLaCarrera;
     }
 }
 
@@ -54,8 +73,13 @@ class Semestre {
         this.listaDeCursos = new ArrayList<>();
     }
 
-    // Métodos
+    // Método para añadir un curso al semestre
     public void añadirCurso(Curso curso) {
         listaDeCursos.add(curso);
+    }
+
+    // Método para eliminar un curso del semestre
+    public void eliminarCurso(Curso curso) {
+        listaDeCursos.remove(curso);
     }
 }
