@@ -17,7 +17,6 @@ public class Main {
         System.out.println();
         System.out.println();
 
-
         Profesor profesor1 = new Profesor("Sebastián", "Desarrollo y Scripting con Python", "sebastian@galileo.gt");
         Profesor profesor2 = new Profesor("Ana", "Desarrollo Web", "ana@galileo.gt");
 
@@ -73,7 +72,7 @@ public class Main {
 
                 case 2:
                     // EDITAR DIRECTOR
-                    scanner.nextLine(); //limpiar
+                    scanner.nextLine(); // limpiar
                     System.out.print("Director actual de la carrera: " + carrera1.obtenerDirector()
                             + "\n¿Cuál es el nuevo director de la carrera?: ");
                     String nuevoDirectorCarrera = scanner.nextLine();
@@ -102,21 +101,34 @@ public class Main {
                                 System.out.print("Nuevo nombre del curso: ");
                                 scanner.nextLine(); // limpiar
                                 String nuevoNombreCurso = scanner.nextLine();
-                                curso1.registrarCurso(nuevoNombreCurso);
+                                curso1.setNombreDelCurso(nuevoNombreCurso);
                                 break;
                             case 2:
                                 // EDITAR HORARIO
                                 System.out.print("¿De qué curso deseas editar el horario? (Por número): ");
                                 int cursoHorario = scanner.nextInt();
+                                scanner.nextLine();
+
                                 System.out.print("Nuevo horario de inicio (10 am): ");
-                                String inicio = scanner.next();
+                                String inicio = scanner.nextLine();
+
                                 System.out.print("Nuevo horario de fin (12 pm): ");
-                                String fin = scanner.next();
+                                String fin = scanner.nextLine();
+
                                 ArrayList<String> nuevosDias = new ArrayList<>();
-                                nuevosDias.add("Lunes");
+                                System.out.println("Introduce los días (ej. Lunes, Martes). Finaliza con 'fin':");
+                                while (true) {
+                                    String dia = scanner.nextLine();
+                                    if (dia.equalsIgnoreCase("fin")) {
+                                        break;
+                                    }
+                                    nuevosDias.add(dia);
+                                }
+
                                 Horario nuevoHorario = new Horario(nuevosDias, inicio, fin);
                                 curso1.definirHorario(nuevoHorario);
                                 break;
+
                             case 3:
                                 // EDITAR PROFESOR
                                 System.out.print("¿De qué curso deseas editar el profesor? (Por número): ");

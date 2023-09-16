@@ -4,41 +4,47 @@ public class Curso {
     private Profesor profesor;
     private Horario horario;
 
-    // Constructor
     public Curso(String nombreDelCurso) {
         this.nombreDelCurso = nombreDelCurso;
         this.profesor = null;
         this.horario = null;
     }
 
-    // Métodos
-    public void registrarCurso(String nombre) {
-        this.nombreDelCurso = nombre;
-    }
-
-    public void modificarDatosCurso(String nombre) {
-        this.nombreDelCurso = nombre;
-    }
-
-    public void asignarProfesor(Profesor profesor) {
+    public Curso(String nombreDelCurso, Profesor profesor, Horario horario) {
+        this.nombreDelCurso = nombreDelCurso;
         this.profesor = profesor;
-    }
-
-    public void definirHorario(Horario horario) {
         this.horario = horario;
     }
 
-    public void eliminarCurso() {
-        this.nombreDelCurso = "";
-        this.profesor = null;
-        this.horario = null;
+    //setters y getters
+    public void setNombreDelCurso(String nombre) {
+        this.nombreDelCurso = nombre;
     }
 
     public String getNombreDelCurso() {
         return nombreDelCurso;
     }
 
+    public void asignarProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
     public Profesor getProfesor() {
         return profesor;
+    }
+
+    public void definirHorario(Horario horario) {
+        this.horario = horario;
+    }
+
+    public Horario getHorario() {
+        return horario;
+    }
+
+    // resetear datos
+    public void reset() {
+        this.nombreDelCurso = "";
+        this.profesor = null;
+        this.horario = null;
     }
 }

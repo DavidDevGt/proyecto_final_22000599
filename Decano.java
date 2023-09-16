@@ -1,30 +1,43 @@
 public class Decano {
-    // Atributos
+    //atributos
     private String nombreDelDecano;
     private String facultad;
     private String correoElectronico;
 
-    // Constructor
+    //constructor
     public Decano(String nombreDelDecano, String facultad, String correoElectronico) {
         this.nombreDelDecano = nombreDelDecano;
         this.facultad = facultad;
         this.correoElectronico = correoElectronico;
     }
 
-    // Métodos
-    public void registrarDecano(String nombre, String facultad, String correo) {
+    //setters y getters
+    public void setNombreDelDecano(String nombre) {
         this.nombreDelDecano = nombre;
+    }
+
+    public String getNombreDelDecano() {
+        return nombreDelDecano;
+    }
+
+    public void setFacultad(String facultad) {
         this.facultad = facultad;
+    }
+
+    public String getFacultad() {
+        return facultad;
+    }
+
+    public void setCorreoElectronico(String correo) {
         this.correoElectronico = correo;
     }
 
-    public void modificarDatosDecano(String nombre, String facultad, String correo) {
-        this.nombreDelDecano = nombre;
-        this.facultad = facultad;
-        this.correoElectronico = correo;
+    public String getCorreoElectronico() {
+        return correoElectronico;
     }
 
-    public void eliminarDecano() {
+    // reset
+    public void reset() {
         this.nombreDelDecano = "";
         this.facultad = "";
         this.correoElectronico = "";

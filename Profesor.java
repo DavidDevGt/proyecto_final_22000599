@@ -1,36 +1,45 @@
 public class Profesor {
-    // Atributos
+    // atributos
     private String nombreDelProfesor;
     private String especialidad;
     private String correoElectronico;
 
-    // Constructor
+    // constructor
     public Profesor(String nombreDelProfesor, String especialidad, String correoElectronico) {
         this.nombreDelProfesor = nombreDelProfesor;
         this.especialidad = especialidad;
         this.correoElectronico = correoElectronico;
     }
 
-    // Métodos
-    public void registrarProfesor(String nombre, String especialidad, String correo) {
+    // getters y setters
+    public void setNombreDelProfesor(String nombre) {
         this.nombreDelProfesor = nombre;
-        this.especialidad = especialidad;
-        this.correoElectronico = correo;
-    }
-
-    public void modificarDatosProfesor(String nombre, String especialidad, String correo) {
-        this.nombreDelProfesor = nombre;
-        this.especialidad = especialidad;
-        this.correoElectronico = correo;
-    }
-
-    public void eliminarProfesor() {
-        this.nombreDelProfesor = "";
-        this.especialidad = "";
-        this.correoElectronico = "";
     }
 
     public String getNombreDelProfesor() {
         return nombreDelProfesor;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setCorreoElectronico(String correo) {
+        this.correoElectronico = correo;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    //reset
+    public void reset() {
+        this.nombreDelProfesor = "";
+        this.especialidad = "";
+        this.correoElectronico = "";
     }
 }
