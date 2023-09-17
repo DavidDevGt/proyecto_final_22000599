@@ -94,6 +94,28 @@ public class Main {
                         System.out.print(ANSI_GREEN + "Seleccione una opción: " + ANSI_RESET);
                         opcionCursos = scanner.nextInt();
 
+                        if (opcionCursos >= 1 && opcionCursos <= 5) {
+                            // Mostramos la lista de semestres disponibles
+                            System.out.println(ANSI_BLUE + "--- Semestres Disponibles ---" + ANSI_RESET);
+                            for (int i = 0; i < carrera1.obtenerSemestres().size(); i++) {
+                                System.out.println((i + 1) + ". Semestre " + (i + 1));
+                            }
+                            System.out.println(ANSI_BLUE + "----------------------------" + ANSI_RESET);
+
+                            // Preguntamos qué semestre quiere manejar
+                            System.out.print(ANSI_GREEN + "Seleccione un semestre: " + ANSI_RESET);
+                            int numSemestreSeleccionado = scanner.nextInt();
+
+                            // Mostramos la lista de cursos disponibles del semestre seleccionado
+                            System.out.println(ANSI_BLUE + "--- Cursos Disponibles ---" + ANSI_RESET);
+                            ArrayList<Curso> cursosDelSemestre = carrera1
+                                    .obtenerCursosDeSemestre(numSemestreSeleccionado);
+                            for (int i = 0; i < cursosDelSemestre.size(); i++) {
+                                System.out.println((i + 1) + ". " + cursosDelSemestre.get(i).getNombreDelCurso());
+                            }
+                            System.out.println(ANSI_BLUE + "--------------------------" + ANSI_RESET);
+                        }
+
                         switch (opcionCursos) {
                             case 1:
                                 // EDITAR INFO DEL CURSO

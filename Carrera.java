@@ -49,19 +49,38 @@ public class Carrera {
         return this.directorDeLaCarrera;
     }
 
-    // Método para añadir un curso a un semestre específico
+    // Método para agregar un curso a un semestre
     public void añadirCursoASemestre(int numeroSemestre, Curso curso) {
         if (numeroSemestre <= listaDeSemestres.size()) {
             listaDeSemestres.get(numeroSemestre - 1).añadirCurso(curso);
         }
     }
 
-    // Método para eliminar datos de la carrera
+    // Método para eliminar info de la carrera
     public void eliminarCarrera() {
         this.nombreDeLaCarrera = "";
         this.duracionDeLaCarrera = "";
         this.listaDeSemestres.clear();
     }
+
+    // Método todos los semestres
+    public ArrayList<Semestre> obtenerSemestres() {
+        return this.listaDeSemestres;
+    }
+
+    // Método lista de cursos de semestre
+    public ArrayList<Curso> obtenerCursosDeSemestre(int numeroSemestre) {
+        if (numeroSemestre <= listaDeSemestres.size()) {
+            return listaDeSemestres.get(numeroSemestre - 1).obtenerCursos();
+        }
+        return new ArrayList<>(); // vacío si el semestre no existe
+    }
+
+    // Método para añadir un semestre
+    public void añadirSemestre(Semestre semestre) {
+        listaDeSemestres.add(semestre);
+    }
+
 }
 
 class Semestre {
@@ -81,5 +100,10 @@ class Semestre {
     // Método para eliminar un curso del semestre
     public void eliminarCurso(Curso curso) {
         listaDeCursos.remove(curso);
+    }
+
+    // Método para obtener la lista de cursos del semestre
+    public ArrayList<Curso> obtenerCursos() {
+        return this.listaDeCursos;
     }
 }
