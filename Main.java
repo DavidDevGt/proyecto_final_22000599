@@ -40,7 +40,7 @@ public class Main {
         semestre1.añadirCurso(curso2);
 
         Carrera carrera1 = new Carrera("Ciencias de la Computación", "4 años");
-        carrera1.añadirSemestre(semestre1); // Esta línea es la que faltaba
+        carrera1.añadirSemestre(semestre1);
         carrera1.añadirCursoASemestre(1, curso1);
         carrera1.añadirCursoASemestre(1, curso2);
 
@@ -85,6 +85,8 @@ public class Main {
 
                 case 3:
                     int opcionCursos = 0;
+                    ArrayList<Curso> cursosDelSemestre = null;
+
                     while (opcionCursos != 6) {
                         System.out.println(ANSI_CYAN + "1. Editar información curso");
                         System.out.println("2. Editar horario curso");
@@ -96,21 +98,24 @@ public class Main {
                         opcionCursos = scanner.nextInt();
 
                         if (opcionCursos >= 1 && opcionCursos <= 5) {
-                            // Mostramos la lista de semestres disponibles
+                            // Mostrar semestres
                             System.out.println(ANSI_BLUE + "--- Semestres Disponibles ---" + ANSI_RESET);
                             for (int i = 0; i < carrera1.obtenerSemestres().size(); i++) {
                                 System.out.println((i + 1) + ". Semestre " + (i + 1));
                             }
                             System.out.println(ANSI_BLUE + "----------------------------" + ANSI_RESET);
 
-                            // Preguntamos qué semestre quiere manejar
+                            // Pregunta que semestre quiere manejar
                             System.out.print(ANSI_GREEN + "Seleccione un semestre: " + ANSI_RESET);
                             int numSemestreSeleccionado = scanner.nextInt();
+                            Semestre semestreSeleccionado = carrera1.obtenerSemestres()
+                                    .get(numSemestreSeleccionado - 1);
 
-                            // Mostramos la lista de cursos disponibles del semestre seleccionado
+                            // Mostrar la lista de cursos disponibles del semestre
                             System.out.println(ANSI_BLUE + "--- Cursos Disponibles ---" + ANSI_RESET);
-                            ArrayList<Curso> cursosDelSemestre = carrera1
-                                    .obtenerCursosDeSemestre(numSemestreSeleccionado);
+                            cursosDelSemestre = semestreSeleccionado.obtenerCursos(); // Aquí es donde se define
+                                                                                      // correctamente la lista de
+                                                                                      // cursos
                             for (int i = 0; i < cursosDelSemestre.size(); i++) {
                                 System.out.println((i + 1) + ". " + cursosDelSemestre.get(i).getNombreDelCurso());
                             }
@@ -122,10 +127,15 @@ public class Main {
                                 // EDITAR INFO DEL CURSO
                                 System.out.print(ANSI_CYAN + "¿Cuál curso deseas editar? (Por número): " + ANSI_RESET);
                                 int cursoAEditar = scanner.nextInt();
-                                System.out.print(ANSI_CYAN + "Nuevo nombre del curso: " + ANSI_RESET);
-                                scanner.nextLine(); // limpiar
-                                String nuevoNombreCurso = scanner.nextLine();
-                                curso1.setNombreDelCurso(nuevoNombreCurso);
+                                if (cursoAEditar > 0 && cursoAEditar <= cursosDelSemestre.size()) {
+                                    Curso cursoSeleccionado = cursosDelSemestre.get(cursoAEditar - 1);
+                                    System.out.print(ANSI_CYAN + "Nuevo nombre del curso: " + ANSI_RESET);
+                                    scanner.nextLine(); // limpiar
+                                    String nuevoNombreCurso = scanner.nextLine();
+                                    cursoSeleccionado.setNombreDelCurso(nuevoNombreCurso);
+                                } else {
+                                    System.out.println(ANSI_RED + "Número de curso inválido." + ANSI_RESET);
+                                }
                                 break;
 
                             case 2:
@@ -133,26 +143,54 @@ public class Main {
                                 System.out.print(ANSI_CYAN + "¿De qué curso deseas editar el horario? (Por número): "
                                         + ANSI_RESET);
                                 int cursoHorario = scanner.nextInt();
-                                scanner.nextLine(); // Consumir el carácter de nueva línea
+                                if (cursoHorario > 0 && cursoHorario <= cursosDelSemestre.size()) {
+                                    Curso cursoParaHorario = cursosDelSemestre.get(cursoHorario - 1);
+                                    scanner.nextLine();
 
-                                System.out.print(ANSI_CYAN + "Horario de inicio (10 am): " + ANSI_RESET);
-                                String inicio = scanner.nextLine();
+                                    System.out.print(
+                                            ANSI_CYAN + "Horario de inicio (Ejemplo: 10 para 10 am): " + ANSI_RESET);
+                                    int inicio = scanner.nextInt();
 
-                                System.out.print(ANSI_CYAN + "Horario de fin (12 pm): " + ANSI_RESET);
-                                String fin = scanner.nextLine();
+                                    System.out.print(
+                                            ANSI_CYAN + "Horario de fin (Ejemplo: 12 para 12 pm): " + ANSI_RESET);
+                                    int fin = scanner.nextInt();
 
-                                ArrayList<String> nuevosDias = new ArrayList<>();
-                                System.out.println(ANSI_CYAN + "Ingresa los días separados por comas (Lunes, Martes):"
-                                        + ANSI_RESET);
-                                String diasInput = scanner.nextLine();
-                                String[] diasArray = diasInput.split(",");
+                                    if (inicio >= fin) {
+                                        System.out.println(
+                                                ANSI_RED + "Hora de inicio no puede ser mayor o igual a hora de fin."
+                                                        + ANSI_RESET);
+                                        break;
+                                    }
 
-                                for (String dia : diasArray) {
-                                    nuevosDias.add(dia.trim());
+                                    ArrayList<String> nuevosDias = new ArrayList<>();
+                                    System.out.println(ANSI_CYAN
+                                            + "Ingresa los días separados por comas (Lunes, Martes):" + ANSI_RESET);
+                                    scanner.nextLine(); // limpiar buffer
+                                    String diasInput = scanner.nextLine();
+                                    String[] diasArray = diasInput.split(",");
+
+                                    for (String dia : diasArray) {
+                                        nuevosDias.add(dia.trim());
+                                    }
+
+                                    Horario nuevoHorario = new Horario(nuevosDias, inicio + " am", fin + " pm");
+                                    // Aquí es donde validamos el horario antes de asignarlo
+                                    boolean horarioValido = true;
+                                    for (Curso otroCurso : cursosDelSemestre) {
+                                        if (!nuevoHorario.validarHorario(otroCurso.getHorario())) {
+                                            horarioValido = false;
+                                            break;
+                                        }
+                                    }
+                                    if (horarioValido) {
+                                        cursoParaHorario.definirHorario(nuevoHorario);
+                                    } else {
+                                        System.out.println(
+                                                ANSI_RED + "El horario se superpone con otro curso." + ANSI_RESET);
+                                    }
+                                } else {
+                                    System.out.println(ANSI_RED + "Número de curso inválido." + ANSI_RESET);
                                 }
-
-                                Horario nuevoHorario = new Horario(nuevosDias, inicio, fin);
-                                curso1.definirHorario(nuevoHorario);
                                 break;
 
                             case 3:
@@ -183,15 +221,13 @@ public class Main {
                                         .print(ANSI_CYAN + "¿Cuál curso deseas eliminar? (Por número): " + ANSI_RESET);
                                 int cursoAEliminar = scanner.nextInt();
 
-                                if (cursoAEliminar == 1) {
-                                    semestre1.eliminarCurso(curso1);
-                                } else if (cursoAEliminar == 2) {
-                                    semestre1.eliminarCurso(curso2);
+                                if (cursoAEliminar > 0 && cursoAEliminar <= cursosDelSemestre.size()) {
+                                    Curso cursoParaEliminar = cursosDelSemestre.get(cursoAEliminar - 1);
+                                    semestre1.eliminarCurso(cursoParaEliminar);
+                                    System.out.println(ANSI_RED + "Curso eliminado exitosamente." + ANSI_RESET);
                                 } else {
                                     System.out.println(ANSI_YELLOW + "Intente de nuevo." + ANSI_RESET);
                                 }
-
-                                System.out.println(ANSI_RED + "Curso eliminado exitosamente." + ANSI_RESET);
                                 break;
 
                             case 6:
