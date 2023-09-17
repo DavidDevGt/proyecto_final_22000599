@@ -36,8 +36,6 @@ public class Main {
         curso2.definirHorario(horario2);
 
         Semestre semestre1 = new Semestre();
-        semestre1.añadirCurso(curso1);
-        semestre1.añadirCurso(curso2);
 
         Carrera carrera1 = new Carrera("Ciencias de la Computación", "4 años");
         carrera1.añadirSemestre(semestre1);
@@ -247,18 +245,23 @@ public class Main {
                 case 5:
                     // Mostrar información del sistema
                     System.out.println(ANSI_BLUE + "====== Información del Sistema ======" + ANSI_RESET);
+                    System.out.println(ANSI_CYAN + "=== Información de la Carrera ===" + ANSI_RESET);
                     System.out.println("Nombre de la carrera: " + carrera1.obtenerNombre());
                     System.out.println("Duración de la carrera: " + carrera1.obtenerDuracion());
                     System.out.println("Director de la carrera: " + carrera1.obtenerDirector());
+                    System.out.println(ANSI_CYAN + "=== Semestres y Cursos ===" + ANSI_RESET);
 
-                    // Información de los cursos
-                    System.out.println(ANSI_CYAN + "--- Cursos ---" + ANSI_RESET);
-                    System.out.println("Curso 1: " + curso1.getNombreDelCurso());
-                    System.out.println("Profesor: " + profesor1.getNombreDelProfesor());
-
-                    System.out.println("Curso 2: " + curso2.getNombreDelCurso());
-                    System.out.println("Profesor: " + profesor2.getNombreDelProfesor());
-
+                    ArrayList<Semestre> semestres = carrera1.obtenerSemestres();
+                    for (int i = 0; i < semestres.size(); i++) {
+                        System.out.println("Semestre " + (i + 1) + ":");
+                        ArrayList<Curso> cursos = semestres.get(i).obtenerCursos();
+                        for (Curso curso : cursos) {
+                            System.out.println("   Curso: " + curso.getNombreDelCurso());
+                            Profesor profesor = curso.getProfesor();
+                            System.out.println("      Profesor: " + profesor.getNombreDelProfesor());
+                            System.out.println("      Especialidad: " + profesor.getEspecialidad());
+                        }
+                    }
                     System.out.println(ANSI_BLUE + "====================================" + ANSI_RESET);
                     break;
 
