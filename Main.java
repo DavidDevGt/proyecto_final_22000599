@@ -40,6 +40,7 @@ public class Main {
         semestre1.añadirCurso(curso2);
 
         Carrera carrera1 = new Carrera("Ciencias de la Computación", "4 años");
+        carrera1.añadirSemestre(semestre1); // Esta línea es la que faltaba
         carrera1.añadirCursoASemestre(1, curso1);
         carrera1.añadirCursoASemestre(1, curso2);
 
