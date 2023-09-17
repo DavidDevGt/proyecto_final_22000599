@@ -11,36 +11,76 @@ public class Main {
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_GREEN = "\u001B[32m";
         final String ANSI_YELLOW = "\u001B[33m";
+        final String ANSI_PURPLE = "\u001B[35m";
+        final String ANSI_WHITE = "\u001B[37m";
 
         System.out.println("\n" + ANSI_BLUE + "=========================================");
-        System.out.println("|            " + ANSI_CYAN + "MENU PRINCIPAL" + ANSI_BLUE + "             |");
-        System.out.println("=========================================" + ANSI_RESET);
-        System.out.println();
+        System.out.println(ANSI_RED + "|" + ANSI_CYAN + "           " + ANSI_GREEN + "SISTEMA DE GESTIÓN" + ANSI_CYAN
+                + "          " + ANSI_RED + "|");
+        System.out.println(ANSI_BLUE + "=========================================" + ANSI_RESET);
         System.out.println();
 
         Profesor profesor1 = new Profesor("Sebastián", "Desarrollo y Scripting con Python", "sebastian@galileo.gt");
+        Profesor profesor3 = new Profesor("Carlos", "Inteligencia Artificial", "carlos@galileo.gt");
         Profesor profesor2 = new Profesor("Ana", "Desarrollo Web", "ana@galileo.gt");
+        Profesor profesor4 = new Profesor("Luisa", "Redes y Comunicaciones", "luisa@galileo.gt");
+        Profesor profesor5 = new Profesor("Pedro", "Bases de Datos Avanzadas", "pedro@galileo.gt");
 
-        ArrayList<String> dias = new ArrayList<>();
-        dias.add("Lunes");
-        dias.add("Viernes");
-        Horario horario1 = new Horario(dias, "10 am", "12 pm");
-        Horario horario2 = new Horario(dias, "1 pm", "3 pm");
+        ArrayList<String> dias1 = new ArrayList<>();
+        dias1.add("Lunes");
+        dias1.add("Viernes");
 
-        Curso curso1 = new Curso("Python Basic 101");
+        ArrayList<String> dias2 = new ArrayList<>();
+        dias2.add("Martes");
+        dias2.add("Jueves");
+
+        ArrayList<String> dias3 = new ArrayList<>();
+        dias3.add("Miércoles");
+        dias3.add("Viernes");
+
+        ArrayList<String> dias4 = new ArrayList<>();
+        dias4.add("Lunes");
+        dias4.add("Miércoles");
+
+        Horario horario1 = new Horario(dias1, "10 am", "12 pm");
+        Horario horario2 = new Horario(dias1, "1 pm", "3 pm");
+        Horario horario3 = new Horario(dias2, "2 pm", "4 pm");
+        Horario horario4 = new Horario(dias3, "9 am", "11 am");
+        Horario horario5 = new Horario(dias4, "3 pm", "5 pm");
+
+        Curso curso1 = new Curso("Python en el Backend");
         curso1.asignarProfesor(profesor1);
         curso1.definirHorario(horario1);
 
-        Curso curso2 = new Curso("Desarrollo Web 101");
+        Curso curso2 = new Curso("Desarrollo Web con Javascript");
         curso2.asignarProfesor(profesor2);
         curso2.definirHorario(horario2);
 
-        Semestre semestre1 = new Semestre();
+        Curso curso3 = new Curso("Introducción a la IA");
+        curso3.asignarProfesor(profesor3);
+        curso3.definirHorario(horario3);
 
-        Carrera carrera1 = new Carrera("Ciencias de la Computación", "4 años");
+        Curso curso4 = new Curso("Redes Computacionales");
+        curso4.asignarProfesor(profesor4);
+        curso4.definirHorario(horario4);
+
+        Curso curso5 = new Curso("Bases de Datos II");
+        curso5.asignarProfesor(profesor5);
+        curso5.definirHorario(horario5);
+
+        Semestre semestre1 = new Semestre();
+        Semestre semestre2 = new Semestre();
+
+        Carrera carrera1 = new Carrera("Desarrollo Fullstack Web", "4 años");
         carrera1.añadirSemestre(semestre1);
         carrera1.añadirCursoASemestre(1, curso1);
         carrera1.añadirCursoASemestre(1, curso2);
+        carrera1.añadirCursoASemestre(1, curso3);
+
+        Carrera carrera2 = new Carrera("Ingeniería de Sistemas", "5 años");
+        carrera2.añadirSemestre(semestre2);
+        carrera2.añadirCursoASemestre(1, curso4);
+        carrera2.añadirCursoASemestre(1, curso5);
 
         // Menú
         int opcionPrincipal = 0;
@@ -49,7 +89,7 @@ public class Main {
             System.out.println("2. Editar director carrera");
             System.out.println("3. Editar cursos carrera");
             System.out.println("4. Salir" + ANSI_RESET);
-            System.out.println("5.Ver información del sistema");
+            System.out.println("5. Ver información del sistema");
             System.out.print(ANSI_GREEN + "Seleccione una opción: " + ANSI_RESET);
             opcionPrincipal = scanner.nextInt();
 
@@ -103,17 +143,15 @@ public class Main {
                             }
                             System.out.println(ANSI_BLUE + "----------------------------" + ANSI_RESET);
 
-                            // Pregunta que semestre quiere manejar
+                            // que semestre quiere
                             System.out.print(ANSI_GREEN + "Seleccione un semestre: " + ANSI_RESET);
                             int numSemestreSeleccionado = scanner.nextInt();
                             Semestre semestreSeleccionado = carrera1.obtenerSemestres()
                                     .get(numSemestreSeleccionado - 1);
 
-                            // Mostrar la lista de cursos disponibles del semestre
+                            // la lista de cursos del semestre
                             System.out.println(ANSI_BLUE + "--- Cursos Disponibles ---" + ANSI_RESET);
-                            cursosDelSemestre = semestreSeleccionado.obtenerCursos(); // Aquí es donde se define
-                                                                                      // correctamente la lista de
-                                                                                      // cursos
+                            cursosDelSemestre = semestreSeleccionado.obtenerCursos();
                             for (int i = 0; i < cursosDelSemestre.size(); i++) {
                                 System.out.println((i + 1) + ". " + cursosDelSemestre.get(i).getNombreDelCurso());
                             }
@@ -172,8 +210,7 @@ public class Main {
                                     }
 
                                     Horario nuevoHorario = new Horario(nuevosDias, inicio + " am", fin + " pm");
-                                    // Aquí es donde validamos el horario antes de asignarlo
-                                    boolean horarioValido = true;
+                                    boolean horarioValido = true; // la dichosa validacion que me tomo una tarde implementarla bien
                                     for (Curso otroCurso : cursosDelSemestre) {
                                         if (!nuevoHorario.validarHorario(otroCurso.getHorario())) {
                                             horarioValido = false;
@@ -245,22 +282,40 @@ public class Main {
                 case 5:
                     // Mostrar información del sistema
                     System.out.println(ANSI_BLUE + "====== Información del Sistema ======" + ANSI_RESET);
-                    System.out.println(ANSI_CYAN + "=== Información de la Carrera ===" + ANSI_RESET);
-                    System.out.println("Nombre de la carrera: " + carrera1.obtenerNombre());
-                    System.out.println("Duración de la carrera: " + carrera1.obtenerDuracion());
-                    System.out.println("Director de la carrera: " + carrera1.obtenerDirector());
-                    System.out.println(ANSI_CYAN + "=== Semestres y Cursos ===" + ANSI_RESET);
 
-                    ArrayList<Semestre> semestres = carrera1.obtenerSemestres();
+                    // 1. lista de carreras
+                    ArrayList<Carrera> carreras = new ArrayList<>();
+                    carreras.add(carrera1);
+                    carreras.add(carrera2); // Aqui deberia de usar un ciclo para que cuando agregue uno automaticamente se agregue aca, pero pues
+
+                    System.out.println(ANSI_CYAN + "=== Elije una Carrera ===" + ANSI_RESET);
+                    for (int i = 0; i < carreras.size(); i++) {
+                        System.out.println((i + 1) + ". " + carreras.get(i).obtenerNombre());
+                    }
+                    System.out.print(ANSI_GREEN + "Seleccione una carrera: " + ANSI_RESET);
+                    int carreraElegidaIndex = scanner.nextInt() - 1;
+                    Carrera carreraElegida = carreras.get(carreraElegidaIndex);
+
+                    // 2. lista de semestres de la carrera
+                    System.out.println(ANSI_CYAN + "=== Elije un Semestre de " + carreraElegida.obtenerNombre() + " ==="
+                            + ANSI_RESET);
+                    ArrayList<Semestre> semestres = carreraElegida.obtenerSemestres();
                     for (int i = 0; i < semestres.size(); i++) {
-                        System.out.println("Semestre " + (i + 1) + ":");
-                        ArrayList<Curso> cursos = semestres.get(i).obtenerCursos();
-                        for (Curso curso : cursos) {
-                            System.out.println("   Curso: " + curso.getNombreDelCurso());
-                            Profesor profesor = curso.getProfesor();
-                            System.out.println("      Profesor: " + profesor.getNombreDelProfesor());
-                            System.out.println("      Especialidad: " + profesor.getEspecialidad());
-                        }
+                        System.out.println((i + 1) + ". Semestre " + (i + 1));
+                    }
+                    System.out.print(ANSI_GREEN + "Seleccione un semestre: " + ANSI_RESET);
+                    int semestreElegidoIndex = scanner.nextInt() - 1;
+                    Semestre semestreElegido = semestres.get(semestreElegidoIndex);
+
+                    // 3. info de los cursos del semestre
+                    System.out.println(
+                            ANSI_CYAN + "=== Cursos del Semestre " + (semestreElegidoIndex + 1) + " ===" + ANSI_RESET);
+                    ArrayList<Curso> cursos = semestreElegido.obtenerCursos();
+                    for (Curso curso : cursos) {
+                        System.out.println("   Curso: " + curso.getNombreDelCurso());
+                        Profesor profesor = curso.getProfesor();
+                        System.out.println("      Profesor: " + profesor.getNombreDelProfesor());
+                        System.out.println("      Especialidad: " + profesor.getEspecialidad());
                     }
                     System.out.println(ANSI_BLUE + "====================================" + ANSI_RESET);
                     break;
