@@ -84,6 +84,8 @@ public class Main {
 
         // Menú
         int opcionPrincipal = 0;
+        Carrera carreraActual = null;
+
         while (opcionPrincipal != 4) {
             System.out.println(ANSI_BLUE + "1. Editar datos carrera");
             System.out.println("2. Editar director carrera");
@@ -93,20 +95,34 @@ public class Main {
             System.out.print(ANSI_GREEN + "Seleccione una opción: " + ANSI_RESET);
             opcionPrincipal = scanner.nextInt();
 
+            if (opcionPrincipal >= 1 && opcionPrincipal <= 3) {
+                // Esto es para evitar que te pregunte 2 veces en el case 5
+                System.out.println(ANSI_CYAN + "Seleccione una carrera:" + ANSI_RESET);
+                System.out.println("1. " + carrera1.obtenerNombre());
+                System.out.println("2. " + carrera2.obtenerNombre());
+                int opcionCarrera = scanner.nextInt();
+
+                if (opcionCarrera == 1) {
+                    carreraActual = carrera1;
+                } else {
+                    carreraActual = carrera2;
+                }
+            }
+
             switch (opcionPrincipal) {
                 case 1:
                     // EDITAR DATOS DE LA CARRERA
-                    System.out.print("Nombre actual de la carrera: " + carrera1.obtenerNombre()
+                    System.out.print("Nombre actual de la carrera: " + carreraActual.obtenerNombre()
                             + "\n¿Cuál es el nuevo nombre de la carrera?: ");
                     scanner.nextLine(); // limpiar
                     String nuevoNombreCarrera = scanner.nextLine();
 
-                    System.out.print("Duración actual de la carrera: " + carrera1.obtenerDuracion()
+                    System.out.print("Duración actual de la carrera: " + carreraActual.obtenerDuracion()
                             + "\n¿Cuál es la nueva duración de la carrera?: ");
                     String nuevaDuracionCarrera = scanner.nextLine();
 
-                    carrera1.actualizarNombre(nuevoNombreCarrera);
-                    carrera1.actualizarDuracion(nuevaDuracionCarrera);
+                    carreraActual.actualizarNombre(nuevoNombreCarrera);
+                    carreraActual.actualizarDuracion(nuevaDuracionCarrera);
 
                     System.out.println(ANSI_GREEN + "Datos actualizados exitosamente." + ANSI_RESET);
                     break;
@@ -114,10 +130,10 @@ public class Main {
                 case 2:
                     // EDITAR DIRECTOR
                     scanner.nextLine(); // limpiar
-                    System.out.print("Director actual de la carrera: " + carrera1.obtenerDirector()
+                    System.out.print("Director actual de la carrera: " + carreraActual.obtenerDirector()
                             + "\n¿Cuál es el nuevo director de la carrera?: ");
                     String nuevoDirectorCarrera = scanner.nextLine();
-                    carrera1.actualizarDirector(nuevoDirectorCarrera);
+                    carreraActual.actualizarDirector(nuevoDirectorCarrera);
                     System.out.println(ANSI_GREEN + "Director actualizado exitosamente." + ANSI_RESET);
                     break;
 
@@ -183,15 +199,13 @@ public class Main {
                                     Curso cursoParaHorario = cursosDelSemestre.get(cursoHorario - 1);
                                     scanner.nextLine();
 
-                                    System.out.print(
-                                            ANSI_CYAN + "Horario de inicio (Ejemplo: 10 para 10 am): " + ANSI_RESET);
-                                    int inicio = scanner.nextInt();
+                                    System.out.print(ANSI_CYAN + "Horario de inicio (Ejemplo: 10:00): " + ANSI_RESET);
+                                    String inicio = scanner.nextLine();
 
-                                    System.out.print(
-                                            ANSI_CYAN + "Horario de fin (Ejemplo: 12 para 12 pm): " + ANSI_RESET);
-                                    int fin = scanner.nextInt();
+                                    System.out.print(ANSI_CYAN + "Horario de fin (Ejemplo: 14:30): " + ANSI_RESET);
+                                    String fin = scanner.nextLine();
 
-                                    if (inicio >= fin) {
+                                    if (inicio.compareTo(fin) >= 0) {
                                         System.out.println(
                                                 ANSI_RED + "Hora de inicio no puede ser mayor o igual a hora de fin."
                                                         + ANSI_RESET);
@@ -201,7 +215,6 @@ public class Main {
                                     ArrayList<String> nuevosDias = new ArrayList<>();
                                     System.out.println(ANSI_CYAN
                                             + "Ingresa los días separados por comas (Lunes, Martes):" + ANSI_RESET);
-                                    scanner.nextLine(); // limpiar buffer
                                     String diasInput = scanner.nextLine();
                                     String[] diasArray = diasInput.split(",");
 
@@ -209,14 +222,17 @@ public class Main {
                                         nuevosDias.add(dia.trim());
                                     }
 
-                                    Horario nuevoHorario = new Horario(nuevosDias, inicio + " am", fin + " pm");
-                                    boolean horarioValido = true; // la dichosa validacion que me tomo una tarde implementarla bien
+                                    Horario nuevoHorario = new Horario(nuevosDias, inicio, fin);
+                                    boolean horarioValido = true;
+
                                     for (Curso otroCurso : cursosDelSemestre) {
-                                        if (!nuevoHorario.validarHorario(otroCurso.getHorario())) {
+                                        if (otroCurso != cursoParaHorario
+                                                && !nuevoHorario.validarHorario(otroCurso.getHorario())) {
                                             horarioValido = false;
                                             break;
                                         }
                                     }
+
                                     if (horarioValido) {
                                         cursoParaHorario.definirHorario(nuevoHorario);
                                     } else {
@@ -286,7 +302,8 @@ public class Main {
                     // 1. lista de carreras
                     ArrayList<Carrera> carreras = new ArrayList<>();
                     carreras.add(carrera1);
-                    carreras.add(carrera2); // Aqui deberia de usar un ciclo para que cuando agregue uno automaticamente se agregue aca, pero pues
+                    carreras.add(carrera2); // Aqui deberia de usar un ciclo para que cuando agregue uno automaticamente
+                                            // se agregue aca, pero pues
 
                     System.out.println(ANSI_CYAN + "=== Elije una Carrera ===" + ANSI_RESET);
                     for (int i = 0; i < carreras.size(); i++) {
@@ -316,6 +333,9 @@ public class Main {
                         Profesor profesor = curso.getProfesor();
                         System.out.println("      Profesor: " + profesor.getNombreDelProfesor());
                         System.out.println("      Especialidad: " + profesor.getEspecialidad());
+                        Horario horarioCurso = curso.getHorario();
+                        System.out.println("      Horario: " + horarioCurso.getDiasDeLaSemana() + " de "
+                                + horarioCurso.getHoraInicio() + " a " + horarioCurso.getHoraFinalizacion());
                     }
                     System.out.println(ANSI_BLUE + "====================================" + ANSI_RESET);
                     break;
